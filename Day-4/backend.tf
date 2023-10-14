@@ -1,7 +1,7 @@
 terraform {
   backend "s3" {
     bucket         = "abhishek-s3-demo-xyz" # change this
-    key            = "abhi/terraform.tfstate"
+    key            = "abhi/terraform.tfstate"  #path in S3 bucket to store statefile
     region         = "us-east-1"
     encrypt        = true
     dynamodb_table = "terraform-lock"
