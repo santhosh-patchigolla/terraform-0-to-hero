@@ -133,3 +133,52 @@ Gain an overview of HashiCorp Vault, a powerful tool for secret management and d
 #### Integrating Terraform with Vault for Secrets
 
 Learn how to integrate Terraform with Vault to manage sensitive data securely. Discover how Vault can be used to store and distribute secrets within configurations.
+___________________________________________________________________
+
+
+>by default terraform.tfvars looks the vars provides if you want to pass the vars with different file name you need to 
+give the file name at terraform apply command # terraform apply -var-file=custom-vars.tfvars
+> Using the output section will come to know that the reosurce has created with what public IP or which AMI using this output
+ection
+
+>Using the lock concept we can we can look the teraform changes, while running the terraform apply we can implement the locking mechhanish as with dyanamodb so that another user cant execute the changes when you are running the terraform apply using Below example 
+
+
+In main.tf
+resource "aws_dynamodb_table" "terraform_lock" {
+  name           = "terraform-lock"
+  billing_mode   = "PAY_PER_REQUEST"
+  hash_key       = "LockID"
+
+  attribute {
+    name = "LockID"
+    type = "S"
+  }
+}
+
+In the  backed.tf
+terraform {
+  backend "s3" {
+    bucket         = "abhishek-s3-demo-xyz" # change this
+    key            = "abhi/terraform.tfstate"
+    region         = "us-east-1"
+    encrypt        = true
+    dynamodb_table = "terraform-lock"
+  }
+}
+
+****
+Local-exec provisioner and the remote exec provisioner and file provisioner difference are below:
+
+Local-exec provisioners: Executes a command locally on the machine running Terraform(Currrenctly mechine where you are runnin on the terrform commads) Remote-exec provisioners: Executes a command on a remote resource, typically after it has been created or after created the resource.
+
+file provisioner: If you want to copy the files from the terraform host to the remote mechine which created throug terrafrom you will be using this file proviosner.
+
+
+
+>by default terraform.tfvars looks the vars provides if you want to pass the vars with different file name you need to 
+give the file name at terraform apply command # terraform apply -var-file=custom-vars.tfvars
+> Using the output section will come to know that the reosurce has created with what public IP or which AMI using this output
+ection
+
+
